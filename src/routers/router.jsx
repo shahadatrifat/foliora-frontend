@@ -7,6 +7,8 @@ import PageWrapper from "../Shared/PageWrapper";
 import MyProfile from "../pages/myProfile/MyProfile";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import DashboardHome from "../pages/dashboard/DashboardHome";
+import Library from "../pages/Library/Library";
+import AddBook from "../pages/addBook/AddBook";
 
 const router = createBrowserRouter([
   {
@@ -19,11 +21,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/library",
-        element: <h1>Library</h1>,
+        element: <Library></Library>,
       },
       {
         path: "/wishlist",
         element: <h1>Wishlist</h1>,
+      },
+      {
+        path: "/add-Book",
+        element: <PageWrapper><AddBook></AddBook></PageWrapper>,
       },
       {
         path: "/profile",
