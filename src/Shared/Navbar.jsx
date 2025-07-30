@@ -18,7 +18,6 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Library", path: "/library" },
-    { name: "Wishlist", path: "/wishlist" },
   ];
 
   if (user) {
@@ -49,7 +48,7 @@ const Navbar = () => {
 
   return (
     <motion.header
-      className="w-full bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-white/20"
+      className="w-full bg-white/70 backdrop-blur-md  sticky top-0 z-50 border-b border-white/20"
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}

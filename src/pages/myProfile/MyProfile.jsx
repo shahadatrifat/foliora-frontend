@@ -73,18 +73,13 @@ const MyProfile = () => {
           <div className="mt-6 flex flex-col gap-3">
             <button
               onClick={() => setEditOpen(true)}
-              className="px-4 py-2 flex items-center justify-center gap-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
+              className="px-4 py-2 flex items-center justify-center gap-2 border border-indigo-500 text-indigo-500 rounded hover:bg-indigo-50 dark:hover:bg-white/10 transition"
             >
               <Pencil size={16} />
               Edit Profile
             </button>
 
-            <Link
-              to="/dashboard"
-              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
-            >
-              Go to Dashboard
-            </Link>
+            
             <button
               onClick={handleLogout}
               className="px-4 py-2 flex items-center justify-center gap-2 border border-red-500 text-red-500 rounded hover:bg-red-50 dark:hover:bg-white/10 transition"

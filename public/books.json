@@ -1,0 +1,102 @@
+[
+  {
+    "title": "The Trial",
+    "author": "Franz Kafka",
+    "category": "Classic Fiction",
+    "description": "A surreal and haunting tale of a man arrested by an invisible authority for an unknown crime.",
+    "coverImage": "https://i.postimg.cc/g2ZYd6bB/the-trial.jpg",
+    "rating": 4.2,
+    "publishYear": 1925,
+    "language": "German"
+  },
+  {
+    "title": "Metamorphosis",
+    "author": "Franz Kafka",
+    "category": "Philosophical Fiction",
+    "description": "Gregor Samsa wakes up to find himself transformed into a giant insect in this dark allegorical masterpiece.",
+    "coverImage": "https://i.postimg.cc/QxPXRJwT/Metamorphosis.jpg",
+    "rating": 4.3,
+    "publishYear": 1915,
+    "language": "German"
+  },
+  {
+    "title": "Man’s Search for Meaning",
+    "author": "Viktor E. Frankl",
+    "category": "Memoir / Historical",
+    "description": "A Holocaust survivor’s reflection on life, suffering, and the will to find meaning.",
+    "coverImage": "https://i.postimg.cc/Zn5bh7Jr/Man-s-Search-for-Meaning.jpg",
+    "rating": 4.7,
+    "publishYear": 1946,
+    "language": "English"
+  },
+  {
+    "title": "A Little Life",
+    "author": "Hanya Yanagihara",
+    "category": "Contemporary / Literary Fiction",
+    "description": "An emotionally devastating portrait of trauma, friendship, and resilience among four college friends.",
+    "coverImage": "https://i.postimg.cc/vHDYqNqy/A-Little-Life.jpg",
+    "rating": 4.6,
+    "publishYear": 2015,
+    "language": "English"
+  },
+  {
+    "title": "The Book Thief",
+    "author": "Markus Zusak",
+    "category": "Historical Fiction",
+    "description": "Narrated by Death, this WWII-era story follows a young girl who steals books and shares them with others.",
+    "coverImage": "https://i.postimg.cc/y8M8SyTH/The-Book-Thief.jpg",
+    "rating": 4.8,
+    "publishYear": 2005,
+    "language": "English"
+  },
+  {
+    "title": "All the Light We Cannot See",
+    "author": "Anthony Doerr",
+    "category": "Historical Fiction",
+    "description": "The lives of a blind French girl and a German boy collide during WWII in this Pulitzer-winning novel.",
+    "coverImage": "https://i.postimg.cc/gjtYcV01/All-the-Light-We-Cannot-Se.jpg",
+    "rating": 4.7,
+    "publishYear": 2014,
+    "language": "English"
+  },
+  {
+    "title": "The Night Circus",
+    "author": "Erin Morgenstern",
+    "category": "Historical Fantasy",
+    "description": "A magical circus that opens only at night becomes the stage for a duel between two young magicians.",
+    "coverImage": "https://i.postimg.cc/kXh47m6D/The-Night-Circuss.jpg",
+    "rating": 4.5,
+    "publishYear": 2011,
+    "language": "English"
+  },
+  {
+    "title": "Norwegian Wood",
+    "author": "Haruki Murakami",
+    "category": "Coming-of-Age / Romance",
+    "description": "A nostalgic and melancholic story of love and loss in 1960s Tokyo.",
+    "coverImage": "https://i.postimg.cc/s25DPGnZ/Norwegian-Wood.webp",
+    "rating": 4.4,
+    "publishYear": 1987,
+    "language": "Japanese"
+  },
+  {
+    "title": "One Hundred Years of Solitude",
+    "author": "Gabriel García Márquez",
+    "category": "Magical Realism",
+    "description": "The Buendía family saga unfolds over generations in the mythical town of Macondo.",
+    "coverImage": "https://i.postimg.cc/QNfNq3qS/one-hundred-years-of-solitude-cover.jpg",
+    "rating": 4.6,
+    "publishYear": 1967,
+    "language": "Spanish"
+  },
+  {
+    "title": "Kafka on the Shore",
+    "author": "Haruki Murakami",
+    "category": "Magical Realism / Fantasy",
+    "description": "A metaphysical journey through dreams, fate, and memory — full of talking cats and surreal events.",
+    "coverImage": "https://i.postimg.cc/htzGj5Ts/Kafka-on-the-Shore.webp",
+    "rating": 4.4,
+    "publishYear": 2002,
+    "language": "Japanese"
+  }
+]

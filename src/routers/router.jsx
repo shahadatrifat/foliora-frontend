@@ -9,6 +9,9 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import DashboardHome from "../pages/dashboard/DashboardHome";
 import Library from "../pages/Library/Library";
 import AddBook from "../pages/addBook/AddBook";
+import BookDetail from "../pages/book-details/BookDetail";
+import Loader from "../components/loader/Loader";
+import MyBooks from "../pages/My-Books/MyBooks";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +32,25 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-Book",
-        element: <PageWrapper><AddBook></AddBook></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AddBook></AddBook>
+          </PageWrapper>
+        ),
+      },
+      {
+        path: "/my-books",
+        element: (
+          <PageWrapper>
+            <MyBooks></MyBooks>
+            </PageWrapper>
+        ),
+      },
+      {
+        path: "/book/:id",
+        element: <BookDetail />,
+        loader : ({params}) => fetch(`${import.meta.env.VITE_API_URL}/api/books/${params.id}`),
+        fallback: <Loader></Loader>,
       },
       {
         path: "/profile",
@@ -52,22 +73,34 @@ const router = createBrowserRouter([
         ),
       },
       {
-    path: "/dashboard",
-    element: <DashboardLayout></DashboardLayout>,
-    children: [
-      {
-        index: true,
-        element: <DashboardHome></DashboardHome>,
-      },
-      {
-        path: "/dashboard/assignments",
-        element: <h1>Assignments</h1>,
+        path: "/dashboard",
+        element: <DashboardLayout></DashboardLayout>,
+        children: [
+          {
+            index: true,
+            element: <DashboardHome></DashboardHome>,
+          },
+          {
+            path: "/dashboard/home",
+            element: <DashboardHome></DashboardHome>,
+          },
+          {
+            path: "/dashboard/my-books",
+            element: (
+              <PageWrapper>
+                <MyBooks></MyBooks>
+              </PageWrapper>
+            ),
+          },
+          {
+            path: "/dashboard/profile",
+            element: <MyProfile></MyProfile>,
+          }
+          
+        ],
       },
     ],
   },
-    ],
-  },
-  
 ]);
 
 export default router;
