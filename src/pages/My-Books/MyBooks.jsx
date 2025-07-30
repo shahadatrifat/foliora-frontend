@@ -10,7 +10,6 @@ import Swal from "sweetalert2";
 import EditBookModal from "../Home/components/modals/EditBookModal";
 import UpvoteListModal from "../Home/components/modals/UpVoteModal";
 
-
 const MyBooks = () => {
   const { user } = useContext(AuthContext);
   const [myBooks, setMyBooks] = useState([]);
@@ -32,12 +31,12 @@ const MyBooks = () => {
       return;
     }
 
-    // Fetch books only if the user is logged in
+    // Fetch my books only if the user is logged in
     const fetchBooks = async () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/books?email=${user?.email}`
+          `${import.meta.env.VITE_API_URL}/api/my-books?email=${user?.email}`  // Querying books based on the user's email
         );
         setMyBooks(response.data);
       } catch (err) {

@@ -1,7 +1,6 @@
 import { Outlet, NavLink } from "react-router";
 import { BookText, User, Home } from "lucide-react";
 import { motion } from "framer-motion";
-import Galaxy from "../../bg/Galaxy/Galaxy";
 
 const DashboardLayout = () => {
   return (

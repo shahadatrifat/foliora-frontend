@@ -20,6 +20,7 @@ import PostedReviewCard from "./PostedReviewCard";
 
 const BookDetails = () => {
   const book = useLoaderData();
+  console.log(book);
   const { user } = useContext(AuthContext);
 
   // Initialize state based on the initial book data
@@ -144,7 +145,7 @@ const BookDetails = () => {
 
   // Show loader if book data is loading
   if (!book) {
-    return <Loader />; 
+    return <Loader />;
   }
 
   return (
@@ -175,24 +176,26 @@ const BookDetails = () => {
               {title}
             </h1>
 
-            <p className="text-muted-foreground text-sm italic flex items-center">
+            <p className="text-muted-foreground text-gray-800 dark:text-gray-300 text-sm italic flex items-center">
               <CalendarDays size={16} className="inline mr-1" />
               Published in {publishingYear}
             </p>
 
             <div className="space-y-3">
               <div>
-                <span className="text-muted-foreground font-medium">Author:</span>{" "}
-                <span className="text-lg font-semibold">{author}</span>
+                <span className="text-muted-foreground text-gray-800 dark:text-gray-300 font-medium">
+                  Author:
+                </span>{" "}
+                <span className="text-lg text-gray-800 dark:text-gray-300 font-semibold">{author}</span>
               </div>
               <div>
-                <span className="text-muted-foreground text-sm font-medium">
+                <span className="text-muted-foreground text-gray-800 dark:text-gray-300 text-sm font-medium">
                   Genre:
                 </span>{" "}
                 {genre?.map((g, i) => (
                   <span
                     key={i}
-                    className="text-xs bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full whitespace-nowrap mr-1"
+                    className="text-xs bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-300 px-2 py-1 rounded-full whitespace-nowrap mr-1"
                   >
                     {g}
                   </span>
@@ -200,13 +203,13 @@ const BookDetails = () => {
               </div>
 
               <div>
-                <span className="text-muted-foreground text-sm font-medium">
+                <span className="text-muted-foreground text-sm text-gray-800 dark:text-gray-300 font-medium">
                   Category:
                 </span>{" "}
                 {category?.map((c, i) => (
                   <span
                     key={i}
-                    className="text-xs bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full whitespace-nowrap mr-1"
+                    className="text-xs bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-300 px-2 py-1 rounded-full whitespace-nowrap mr-1"
                   >
                     {c}
                   </span>
@@ -214,10 +217,10 @@ const BookDetails = () => {
               </div>
 
               <div>
-                <span className="text-muted-foreground font-medium">
+                <span className="text-muted-foreground text-gray-800 dark:text-gray-300 font-medium">
                   Page Count:
                 </span>{" "}
-                <span>{pageCount}</span>
+                <span className="text-gray-800 dark:text-gray-300">{pageCount}</span>
               </div>
             </div>
 
@@ -225,19 +228,19 @@ const BookDetails = () => {
               <h2 className="text-xl font-semibold mb-2 text-primary">
                 Description
               </h2>
-              <p className="text-base leading-relaxed text-muted-foreground">
+              <p className="text-base leading-relaxed  text-gray-800 dark:text-gray-300 text-muted-foreground">
                 {description}
               </p>
             </div>
 
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-300">
                 Reading Status
               </label>
               <select
                 value={readingStatus}
                 onChange={handleStatusChange}
-                className="w-full p-2 mt-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 rounded-md"
+                className="w-full p-2 mt-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 border border-gray-300 rounded-md"
               >
                 <option value="Want-to-Read">Want-to-Read</option>
                 <option value="Reading">Reading</option>
@@ -246,7 +249,7 @@ const BookDetails = () => {
               </select>
             </div>
 
-            <div className="flex gap-3 mt-4">
+            <div className="flex gap-3 mt-">
               <button
                 onClick={handleUpvote}
                 disabled={hasUpvoted}
@@ -258,26 +261,56 @@ const BookDetails = () => {
                     }`}
               >
                 <ArrowUp size={16} className=" inline text-primary" />
-                {hasUpvoted ? "Upvoted" : "Upvote"} ({upvoteCount})
+                <span className="text-gray-800 dark:text-gray-300">{hasUpvoted ? "Upvoted" : "Upvote"}</span> ({upvoteCount})
               </button>
               <button className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-full bg-muted hover:bg-muted/70 transition ">
                 <MessageSquareText className="text-primary" size={16} />
-                Review
+               <span className="text-gray-800 dark:text-gray-300">Reviewed By</span>({reviews.length})  
               </button>
             </div>
 
             <span className="divider"></span>
 
-            {/* Render reviews after the divider */}
-            {reviews?.length > 0 &&
-              reviews.map((review, index) => (
-                <PostedReviewCard key={index} review={review} />
-              ))}
+            {/* Render publisher after the divider */}
+            <div className="">
+              <h2 className="text-xl font-semibold  text-primary">
+                Publisher
+              </h2>
+                <p className="text-sm text-muted-foreground flex items-center gap-1 text-gray-500 dark:text-gray-400    ">posted on {UploadDate.slice(0, 10)}</p>
+              <div className="px-3 py-2 bg-gray-100 dark:bg-gray-800 w-full md:w-3/4 border border-gray-300 dark:border-gray-600  rounded-md bg-muted/40 flex items-center gap-3   ">
+                <div className="w-12 border-2 border-primary border-muted dark:border-gray-600 h-12 min-w-12 rounded-full overflow-hidden shadow-inner">
+                  {uploaderInfo.uploaderPhoto ? (
+                    <img
+                      src={uploaderInfo.uploaderPhoto}
+                      alt={uploaderInfo.uploaderName}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-muted flex items-center justify-center text-lg font-bold text-primary">
+                      <User />
+                    </div>
+                  )}
+                </div>
+                <div className="leading-tight">
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-300 text-foreground">
+                    {uploaderInfo.uploaderName}
+                  </p>
+                  <p className="text-xs text-muted-foreground text-gray-800 dark:text-gray-300 flex items-center gap-1">
+                    <UserRoundSearch size={12} />
+                    {uploaderInfo.uploaderEmail}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <ReviewCard onSubmit={handleReviewSubmit} />
         <div className="divider"></div>
+        {reviews?.length > 0 &&
+          reviews.map((review, index) => (
+            <PostedReviewCard key={index} review={review} />
+          ))}
       </motion.section>
     </div>
   );

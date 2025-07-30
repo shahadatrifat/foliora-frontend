@@ -76,7 +76,7 @@ const ReviewCard = ({ onSubmit, existingReview = {} }) => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="w-full mt-3 text-white bg-primary hover:bg-primary/80 focus:ring-4 focus:outline-none focus:ring-primary/30 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary/80 dark:focus:ring-primary/80 flex items-center justify-center gap-2"
+            className="w-full mt-3  text-gray-200 bg-primary hover:bg-primary/80 focus:ring-4 focus:outline-none focus:ring-primary/30 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary/80 dark:focus:ring-primary/80 flex items-center justify-center gap-2"
           >
             <MdOutlineRateReview size={20} />
             Submit
