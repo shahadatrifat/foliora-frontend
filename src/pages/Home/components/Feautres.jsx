@@ -15,7 +15,7 @@ const features = [
     title: "Wishlist Favorite Books",
     desc: "Save books you want to read later and organize them beautifully.",
   },
-  ,
+  
   {
     icon: <Star size={28} />,
     title: "Rate Your Favorites",
@@ -33,7 +33,7 @@ const Features = () => {
       className="py-16 bg-white dark:bg-gray-950"
     >
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-semibold font-[Playfair] text-center mb-12 dark:text-white">
+        <h2 className="text-3xl md:text-4xl font-semibold font-[Playfair] text-center mb-6 text-primary ">
           Why Choose Foliora?
         </h2>
         <div className="grid md:grid-cols-3 gap-8">

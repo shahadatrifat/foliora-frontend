@@ -1,36 +1,60 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MdOutlineRateReview } from "react-icons/md";
-import { User } from "lucide-react";
+import { Trash, User } from "lucide-react";
 import { FaStar } from "react-icons/fa";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const PostedReviewCard = ({ review }) => {
-  const { name, photo, rating, comment, date } = review;
+const PostedReviewCard = ({ review, bookId, setReviews }) => {
+  const { name, photo, rating, comment, date, email } = review;
+  const { user } = useContext(AuthContext);
 
   // Format the date
   const formattedDate = new Date(date).toLocaleDateString();
 
+  // Handle Delete
+  const handleDelete = async () => {
+    if (user.email !== review.email) {
+        toast.error("You can only delete your own reviews.");
+        return; 
+    }
+
+    try {
+        // Call the delete API
+        const res = await axios.delete(
+            `${import.meta.env.VITE_API_URL}/api/books/${bookId}/review`,
+            { data: { email } }
+        );
+
+        if (res.status === 200) {
+            toast.success("Review deleted successfully");
+            // Optionally, trigger a re-fetch or update the state locally to remove the review from the UI
+            // For example:
+            // setReviews((prevReviews) => prevReviews.filter((rev) => rev.email !== email));
+        } else {
+            toast.error("Failed to delete review");
+        }
+    } catch (err) {
+        toast.error("Refresh the page to see the changes.");
+    }
+};
+
   return (
-    <div>
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200  mb-4"> Posted Reviews</h2>
-        <div className="container  w-full max-w-lg p-1 space-y-1  bg-gray-50 dark:bg-gray-700 rounded-xl ">
-      {/* Reviewer Header */}
+    <div className="container  w-full mb-2  mx-auto p-1 space-y-1 bg-gray-50 dark:bg-gray-700 rounded-xl">
       <div className="flex justify-between items-center p-2">
         <div className="flex items-center space-x-4">
           {/* Reviewer Profile Picture */}
           <div className="w-12 h-12 rounded-full overflow-hidden shadow-md">
             <img
-              src={photo || "https://source.unsplash.com/100x100/?portrait"}
+              src={photo || <User size={30}></User>} // Default fallback image
               alt="Reviewer"
               className="object-cover w-full h-full"
             />
           </div>
           <div>
-            <h4 className="text-xl font-semibold text-gray-800 dark:text-white">
-              {name}
-            </h4>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
-              {formattedDate}
-            </span>
+            <h4 className="text-xl font-semibold text-gray-800 dark:text-white">{name}</h4>
+            <span className="text-xs text-gray-500 dark:text-gray-400">{formattedDate}</span>
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -40,9 +64,7 @@ const PostedReviewCard = ({ review }) => {
               key={index}
               size={20}
               className={`${
-                index < rating
-                  ? "text-yellow-400"
-                  : "text-gray-300 dark:text-gray-600"
+                index < rating ? "text-yellow-400" : "text-gray-300 dark:text-gray-600"
               }`}
             />
           ))}
@@ -54,14 +76,23 @@ const PostedReviewCard = ({ review }) => {
         <p>{comment}</p>
       </div>
 
+      {/* Delete Button for Logged In User */}
+      <div className="flex justify-between ">
+        <div>{user?.email === review?.email && (
+        <div className="flex justify-end p-3 text-gray-500 dark:text-gray-400">
+          <button onClick={handleDelete} className="text-sm">
+            <Trash color="red" size={20} />
+          </button>
+        </div>
+      )}</div>
+
       {/* Footer with icon */}
       <div className="flex justify-end p-3 text-gray-500 dark:text-gray-400">
         <MdOutlineRateReview size={20} className="inline-block mr-2" />
         <span className="text-sm">Rated</span>
       </div>
     </div>
-    <span className="bloc max-w-lg mt-2 space-y-1 rounded-xl block w-full h-0.5 bg-gray-200 dark:bg-gray-700"></span>
-    </div>
+      </div>
   );
 };
 

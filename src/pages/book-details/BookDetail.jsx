@@ -56,6 +56,8 @@ const BookDetails = () => {
     UploadDate,
     reviews,
   } = book;
+  const bookId = String(book._id);
+  console.log(bookId);
 
   const uploaderInfo = uploader?.[0]; // Access uploaderInfo safely
 
@@ -151,7 +153,7 @@ const BookDetails = () => {
   return (
     <div className="max-w-6xl py-10 px-4 md:py-16 mx-auto">
       <button
-        className="flex items-center hover:underline text-sm font-semibold text-primary"
+        className="flex items-center hover:underline text-md font-semibold text-primary"
         onClick={() => window.history.back()}
       >
         <ChevronLeft /> back
@@ -160,7 +162,7 @@ const BookDetails = () => {
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-[#f3f4f6] dark:bg-[#0c111c] rounded-3xl py-10 px-4 md:py-16 mt-6"
+        className="bg-[#f3f4f6] dark:bg-[#0c111c] rounded-3xl py-10 px-4 md:py-16 "
       >
         <div className="grid md:grid-cols-2 gap-10 items-start">
           <div className="w-full overflow-hidden rounded-2xl">
@@ -186,7 +188,9 @@ const BookDetails = () => {
                 <span className="text-muted-foreground text-gray-800 dark:text-gray-300 font-medium">
                   Author:
                 </span>{" "}
-                <span className="text-lg text-gray-800 dark:text-gray-300 font-semibold">{author}</span>
+                <span className="text-lg text-gray-800 dark:text-gray-300 font-semibold">
+                  {author}
+                </span>
               </div>
               <div>
                 <span className="text-muted-foreground text-gray-800 dark:text-gray-300 text-sm font-medium">
@@ -220,7 +224,9 @@ const BookDetails = () => {
                 <span className="text-muted-foreground text-gray-800 dark:text-gray-300 font-medium">
                   Page Count:
                 </span>{" "}
-                <span className="text-gray-800 dark:text-gray-300">{pageCount}</span>
+                <span className="text-gray-800 dark:text-gray-300">
+                  {pageCount}
+                </span>
               </div>
             </div>
 
@@ -261,23 +267,29 @@ const BookDetails = () => {
                     }`}
               >
                 <ArrowUp size={16} className=" inline text-primary" />
-                <span className="text-gray-800 dark:text-gray-300">{hasUpvoted ? "Upvoted" : "Upvote"}</span> ({upvoteCount})
+                <span className="text-gray-800 dark:text-gray-300">
+                  {hasUpvoted ? "Upvoted" : "Upvote"}
+                </span>{" "}
+                ({upvoteCount})
               </button>
               <button className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-full bg-muted hover:bg-muted/70 transition ">
                 <MessageSquareText className="text-primary" size={16} />
-               <span className="text-gray-800 dark:text-gray-300">Reviewed By</span>({reviews.length})  
+                <span className="text-gray-800 dark:text-gray-300">
+                  Reviewed By
+                </span>
+                ({reviews.length})
               </button>
             </div>
 
-            <span className="divider"></span>
+            
 
             {/* Render publisher after the divider */}
             <div className="">
-              <h2 className="text-xl font-semibold  text-primary">
-                Publisher
-              </h2>
-                <p className="text-sm text-muted-foreground flex items-center gap-1 text-gray-500 dark:text-gray-400    ">posted on {UploadDate.slice(0, 10)}</p>
-              <div className="px-3 py-2 bg-gray-100 dark:bg-gray-800 w-full md:w-3/4 border border-gray-300 dark:border-gray-600  rounded-md bg-muted/40 flex items-center gap-3   ">
+              <h2 className="text-xl font-semibold  text-primary">Publisher</h2>
+              <p className="text-sm text-muted-foreground flex items-center gap-1 text-gray-500 dark:text-gray-400    ">
+                posted on {UploadDate.slice(0, 10)}
+              </p>
+              <div className="px-3 py-2 bg-gray-100 mb-5 dark:bg-gray-800 w-full md:w-3/4 border border-gray-300 dark:border-gray-600  rounded-md bg-muted/40 flex items-center gap-3   ">
                 <div className="w-12 border-2 border-primary border-muted dark:border-gray-600 h-12 min-w-12 rounded-full overflow-hidden shadow-inner">
                   {uploaderInfo.uploaderPhoto ? (
                     <img
@@ -302,15 +314,22 @@ const BookDetails = () => {
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
-
-        <ReviewCard onSubmit={handleReviewSubmit} />
-        <div className="divider"></div>
-        {reviews?.length > 0 &&
-          reviews.map((review, index) => (
-            <PostedReviewCard key={index} review={review} />
-          ))}
+        <span className="divider"></span>
+        <div className="md:flex justify-center-safe gap-2   ">
+          <div>
+            <ReviewCard onSubmit={handleReviewSubmit} />
+          </div>
+          <div className="divider md:divider-horizontal"></div>
+          <div>
+            {reviews?.length > 0 &&
+              reviews.map((review, index) => (
+                <PostedReviewCard key={index} review={review} bookId={bookId} />
+              ))}
+          </div>
+        </div>
       </motion.section>
     </div>
   );

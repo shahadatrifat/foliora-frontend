@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-hot-toast";
 
@@ -7,6 +7,8 @@ const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const validatePassword = (password) => {
     const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$/;
@@ -31,12 +33,12 @@ const SignUp = () => {
     setLoading(true);
 
     createUser(email, password)
-      .then((result) => {
+      .then(() => {
         return updateUserProfile({ displayName: name, photoURL });
       })
       .then(() => {
         toast.success("Account created!");
-        navigate("/"); // Redirect after signup
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         toast.error(error.message || "Failed to create account");

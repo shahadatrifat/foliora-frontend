@@ -39,7 +39,7 @@ const ReviewCard = ({ onSubmit, existingReview = {} }) => {
   };
 
   return (
-    <div className="flex flex-col mt-6 max-w-md mx-auto items-center p-8 border-gray-200 border-opacity-60 dark:border-gray-700 border-2 rounded-xl lg:p-12 dark:bg-gray-900 dark:text-gray-800">
+    <div className="flex flex-col w-full mb-2  items-center p-8 border-gray-200 border-opacity-60 dark:border-gray-700 border-2 rounded-xl lg:p-12 dark:bg-gray-900 bg-gray-50 dark:text-gray-800">
       <div className="flex flex-col items-center w-full">
         <h2 className="text-3xl font-semibold text-center text-primary">
           Review this book

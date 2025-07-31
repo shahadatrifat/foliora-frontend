@@ -3,6 +3,8 @@ import { Outlet } from "react-router";
 import Navbar from "../Shared/Navbar";
 import Footer from "../Shared/Footer";
 import { Toaster } from "react-hot-toast";
+import PageWrapper from "../Shared/PageWrapper";
+import { Fade } from "react-awesome-reveal";
 
 
 const RootLayout = () => {
@@ -13,7 +15,8 @@ const RootLayout = () => {
       <main >
         <Outlet />
       </main>
-      <Footer></Footer>
+      <Fade cascade duration={1000}><div className=" bg-gray-100 dark:bg-gray-800"> <><Footer></Footer></></div></Fade>
+     
     </div>
   );
 };

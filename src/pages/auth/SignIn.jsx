@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-hot-toast";
@@ -8,6 +8,8 @@ const SignIn = () => {
   const { signIn, signInWithGoogle } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ const SignIn = () => {
     try {
       await signIn(email, password);
       toast.success("Signed in successfully!");
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error) {
       toast.error(error.message || "Sign in failed");
     } finally {
@@ -31,7 +33,7 @@ const SignIn = () => {
     try {
       await signInWithGoogle();
       toast.success("Signed in with Google!");
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error) {
       toast.error("Google sign-in failed");
     } finally {
@@ -76,7 +78,7 @@ const SignIn = () => {
             disabled={loading}
             className="flex items-center gap-2 py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
           >
-            <FcGoogle size={20}/>
+            <FcGoogle size={20} />
             Sign in with Google
           </button>
         </div>

@@ -125,6 +125,14 @@ export default function Carousel({
     >
       {reviews.map((review, index) => (
         <motion.div
+         viewport={{ once: true, amount: 0.3 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50 }}
+          onHoverStart={() => setIsHovered(true)}
+          onHoverEnd={() => setIsHovered(false)}
+          onAnimationComplete={handleAnimationComplete}
+          {...dragProps}
+          
           key={index}
           className={`relative shrink-0 flex flex-col ${
             round

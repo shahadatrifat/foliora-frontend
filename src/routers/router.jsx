@@ -12,6 +12,9 @@ import AddBook from "../pages/addBook/AddBook";
 import BookDetail from "../pages/book-details/BookDetail";
 import Loader from "../components/loader/Loader";
 import MyBooks from "../pages/My-Books/MyBooks";
+import DashboardMainPage from "../pages/dashboard/DashboardMainPage";
+import ErrorPage from "../components/Errorpage/ErrorPage";
+import PrivateRoute from "../components/private-route/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -27,34 +30,30 @@ const router = createBrowserRouter([
         element: <Library></Library>,
       },
       {
-        path: "/wishlist",
-        element: <h1>Wishlist</h1>,
-      },
-      {
         path: "/add-Book",
         element: (
           <PageWrapper>
-            <AddBook></AddBook>
+            <PrivateRoute><AddBook></AddBook></PrivateRoute>
           </PageWrapper>
         ),
       },
       {
         path: "/my-books",
         element: (
-          <PageWrapper>
+          <PrivateRoute><PageWrapper>
             <MyBooks></MyBooks>
-            </PageWrapper>
+            </PageWrapper></PrivateRoute>
         ),
       },
       {
         path: "/book/:id",
-        element: <BookDetail />,
+        element: <PrivateRoute><BookDetail></BookDetail></PrivateRoute>,
         loader : ({params}) => fetch(`${import.meta.env.VITE_API_URL}/api/books/${params.id}`),
         fallback: <Loader></Loader>,
       },
       {
         path: "/profile",
-        element: <MyProfile></MyProfile>,
+        element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>,
       },
       {
         path: "/signup",
@@ -73,16 +72,17 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path:"*",
+        element:<ErrorPage></ErrorPage>
+      },
+      {
         path: "/dashboard",
-        element: <DashboardLayout></DashboardLayout>,
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children: [
+          
           {
             index: true,
-            element: <DashboardHome></DashboardHome>,
-          },
-          {
-            path: "/dashboard/home",
-            element: <DashboardHome></DashboardHome>,
+            element: <PrivateRoute><DashboardHome></DashboardHome></PrivateRoute>,
           },
           {
             path: "/dashboard/my-books",

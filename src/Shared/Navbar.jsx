@@ -23,6 +23,7 @@ const Navbar = () => {
   if (user) {
     navLinks.push({ name: "Add Book", path: "/add-Book" });
     navLinks.push({ name: "My Books", path: "/my-books" });
+    navLinks.push({ name: "Dashboard", path: "/dashboard" });
   }
 
   const handleLogout = async () => {

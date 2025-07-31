@@ -13,6 +13,9 @@ const Hero = () => {
           initial={{ x: -40, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.3 }}
+                whileInView={{ opacity: 1, y: 0 }}
+
           className="flex justify-center"
         >
           <Player
