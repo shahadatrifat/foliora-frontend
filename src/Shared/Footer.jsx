@@ -102,8 +102,8 @@ const Footer = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            &copy; 2025{" "}
-            <span className="font-bold font-[Playfair]">Foliora</span>. All
+            &copy; {new Date().getFullYear()}{" "}
+            <span className="font-bold text-gray-800 dark:text-white font-[Playfair]">Foliora</span>. All
             rights reserved.
           </motion.span>
         </div>
