@@ -1,6 +1,8 @@
 # Dependency directories
 node_modules/
-
+# Environment files
+.env
+.env.local
 # Build output directories (for React, Vue, etc.)
 build/
 dist/
@@ -18,10 +20,7 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# Environment files
-.env
-.env.local
-.env.*.local
+
 
 # IDE/Editor folders (e.g., VSCode, WebStorm, etc.)
 .vscode/
