@@ -9,7 +9,7 @@ const ReviewCard = ({ onSubmit, existingReview = {} }) => {
 
   const handleRatingChange = (e) => {
     setRating(parseInt(e.target.value));
-  }; 
+  };
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);

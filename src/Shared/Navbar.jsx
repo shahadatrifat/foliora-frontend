@@ -165,7 +165,7 @@ const Navbar = () => {
                           className="block px-4 py-2 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded"
                         >
                           <FaRegCircleUser size={20} />
-                                                    My Profile
+                          My Profile
                         </Link>
                       </li>
                       <li>
@@ -174,7 +174,7 @@ const Navbar = () => {
                           onClick={() => setIsUserMenuOpen(false)}
                           className="block px-4 py-2 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded"
                         >
-                         <RiDashboardHorizontalLine size={20} /> Dashboard
+                          <RiDashboardHorizontalLine size={20} /> Dashboard
                         </Link>
                       </li>
                       <li>

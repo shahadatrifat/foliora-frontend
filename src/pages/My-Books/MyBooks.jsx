@@ -9,9 +9,12 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import EditBookModal from "../Home/components/modals/EditBookModal";
 import UpvoteListModal from "../Home/components/modals/UpVoteModal";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyBooks = () => {
   const { user } = useContext(AuthContext);
+
+  const axiosSecure = useAxiosSecure();
   console.log(user);
   const [myBooks, setMyBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,12 +39,9 @@ const MyBooks = () => {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/my-books?email=${user?.email}`,{
-            headers:{
-              authorization: `Bearer ${user?.accessToken}`
-            }
-          }  
+        // Use axiosSecure to fetch books
+        const response = await axiosSecure(
+          `/api/my-books?email=${user?.email}`
         );
         setMyBooks(response.data);
       } catch (err) {
@@ -52,7 +52,7 @@ const MyBooks = () => {
     };
 
     fetchBooks();
-  }, [user]);
+  }, [user, axiosSecure]);
 
   const handleEdit = (book) => {
     setSelectedBook(book);
@@ -77,11 +77,11 @@ const MyBooks = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`${import.meta.env.VITE_API_URL}/api/books/${bookId}`)
+        axiosSecure
+          .delete(`/api/books/${bookId}`)
           .then(() => {
             setMyBooks((prev) => prev.filter((book) => book._id !== bookId));
-            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            Swal.fire("Deleted!", "Your book has been deleted.", "success");
           })
           .catch((err) => {
             toast.error("Error deleting book:", err);
@@ -92,7 +92,7 @@ const MyBooks = () => {
 
   const handleUpvote = (book) => {
     setSelectedBook(book);
-    setShowUpvoteModal(true);  // Show upvote modal instead of edit modal
+    setShowUpvoteModal(true); // Show upvote modal instead of edit modal
   };
 
   const closeModal = () => {
@@ -112,9 +112,8 @@ const MyBooks = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     const updatedBook = { ...formData };
-
-    axios
-      .put(`${import.meta.env.VITE_API_URL}/api/books/${selectedBook._id}`, updatedBook)
+    axiosSecure
+      .put(`/api/books/${selectedBook._id}`, updatedBook)
       .then((res) => {
         setMyBooks((prevBooks) =>
           prevBooks.map((book) =>
@@ -130,7 +129,7 @@ const MyBooks = () => {
   };
 
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   return (
@@ -161,7 +160,9 @@ const MyBooks = () => {
                 </Link>
                 <p className="text-sm dark:text-gray-400 text-gray-800 mb-3 line-clamp-3">
                   {book.description?.slice(0, 120)}
-                  {book.description && book.description.length > 120 ? "..." : ""}
+                  {book.description && book.description.length > 120
+                    ? "..."
+                    : ""}
                 </p>
 
                 <div className="flex flex-wrap gap-2 text-xs dark:text-gray-400 text-gray-800 mb-4">

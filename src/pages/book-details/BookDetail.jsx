@@ -15,13 +15,15 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import Loader from "../../components/loader/Loader";
-import ReviewCard from "./ReviewCard"; // Import your ReviewCard component
+import ReviewCard from "./ReviewCard";
 import PostedReviewCard from "./PostedReviewCard";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookDetails = () => {
   const book = useLoaderData();
   console.log(book);
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
 
   // Initialize state based on the initial book data
   const [upvoteCount, setUpvoteCount] = useState(book.upvotes?.length || 0);
@@ -33,7 +35,6 @@ const BookDetails = () => {
       ?.status || "Not Started"
   );
 
-  // Effect to re-sync state if the book data changes (e.g., from re-fetching via loader)
   useEffect(() => {
     setUpvoteCount(book.upvotes?.length || 0);
     setHasUpvoted(book.upvotes?.some((up) => up.email === user?.email));
@@ -59,10 +60,9 @@ const BookDetails = () => {
   const bookId = String(book._id);
   console.log(bookId);
 
-  const uploaderInfo = uploader?.[0]; // Access uploaderInfo safely
+  const uploaderInfo = uploader?.[0]; 
 
   const handleUpvote = async () => {
-    // Frontend pre-checks
     if (!user) {
       return toast.error("You must be logged in to upvote a book");
     }
@@ -74,15 +74,11 @@ const BookDetails = () => {
     }
 
     try {
-      const res = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/api/books/${book._id}/upvote`,
-        {
-          email: user.email,
-          name: user.displayName,
-          photo: user.photoURL,
-        }
-      );
-
+      const res = await axiosSecure.patch(`/api/books/${book._id}/upvote`, {
+        email: user.email,
+        name: user.displayName,
+        photo: user.photoURL,
+      });
       if (res.status === 200) {
         if (res.data && Array.isArray(res.data.upvotes)) {
           setUpvoteCount(res.data.upvotes.length);
@@ -106,13 +102,10 @@ const BookDetails = () => {
   const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
     try {
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/api/books/${book._id}/reading-status`,
-        {
-          email: user.email,
-          readingStatus: newStatus,
-        }
-      );
+      await axiosSecure.patch(`/api/books/${book._id}/reading-status`, {
+        email: user.email,
+        readingStatus: newStatus,
+      });
       setReadingStatus(newStatus);
       toast.success("Reading status updated");
     } catch (err) {
@@ -122,17 +115,14 @@ const BookDetails = () => {
 
   const handleReviewSubmit = async (review) => {
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/books/${book._id}/review`,
-        {
-          email: user.email,
-          name: user.displayName,
-          photo: user.photoURL,
-          rating: review.rating,
-          comment: review.message,
-          date: new Date().toISOString(),
-        }
-      );
+      const res = await axiosSecure.post(`/api/books/${book._id}/review`, {
+        email: user.email,
+        name: user.displayName,
+        photo: user.photoURL,
+        rating: review.rating,
+        comment: review.message,
+        date: new Date().toISOString(),
+      });
       if (res.status === 200) {
         toast.success("Review submitted successfully!");
       }
@@ -145,7 +135,6 @@ const BookDetails = () => {
     ? new Date(UploadDate).toLocaleDateString()
     : "N/A";
 
-  // Show loader if book data is loading
   if (!book) {
     return <Loader />;
   }
@@ -281,8 +270,6 @@ const BookDetails = () => {
               </button>
             </div>
 
-            
-
             {/* Render publisher after the divider */}
             <div className="">
               <h2 className="text-xl font-semibold  text-primary">Publisher</h2>
@@ -314,7 +301,6 @@ const BookDetails = () => {
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
         <span className="divider"></span>

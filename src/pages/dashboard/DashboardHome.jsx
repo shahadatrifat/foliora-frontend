@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router";
 import DashboardStats from "./DashboardStats";
 import { motion } from "framer-motion";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const DashboardHome = () => {
   const { user } = useContext(AuthContext);
@@ -13,17 +14,14 @@ const DashboardHome = () => {
     { name: "Read", posts: [] },
     { name: "Want to read", posts: [] },
   ]);
-
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
     if (!user?.email) {
       return;
     }
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/api/books?email=${user?.email}`,{
-        headers:{
-          authorization: `Bearer ${user?.accessToken}`
-        }
-      })
+
+    axiosSecure
+      .get(`/api/books?email=${user?.email}`)
       .then((res) => {
         const books = res.data;
         // console.log(books);

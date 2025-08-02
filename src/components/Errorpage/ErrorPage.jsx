@@ -1,7 +1,7 @@
-import React from 'react';
-import lonley from '../../../src/assets/lotties/Lonely404.json'; 
-import { Player } from '@lottiefiles/react-lottie-player'; 
-import { Link } from 'react-router'; 
+import React from "react";
+import lonley from "../../../src/assets/lotties/Lonely404.json";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { Link } from "react-router";
 
 const ErrorPage = () => {
   return (
@@ -11,8 +11,8 @@ const ErrorPage = () => {
         <Player
           autoplay
           loop
-          src={lonley} 
-          className="w-full max-w-lg mx-auto" 
+          src={lonley}
+          className="w-full max-w-lg mx-auto"
         />
       </div>
 
@@ -24,7 +24,10 @@ const ErrorPage = () => {
       </p>
 
       <div className="flex space-x-4">
-        <Link to="/" className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+        <Link
+          to="/"
+          className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+        >
           Go to Home
         </Link>
         <button

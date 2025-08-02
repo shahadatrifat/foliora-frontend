@@ -4,6 +4,7 @@ import { BookOpen, Calendar, Tag, User, Upload, ImagePlus } from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddBook = () => {
   const { user } = useContext(AuthContext);
@@ -20,7 +21,7 @@ const AddBook = () => {
     description: "",
     pageCount: "",
   });
-
+  const axiosSecure = useAxiosSecure();
   const genreArray = genreInput
     .split(",")
     .map((item) => item.trim())
@@ -93,11 +94,7 @@ const AddBook = () => {
           },
         ],
       };
-
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/books`,
-        dataToSend
-      );
+      const response = await axiosSecure.post("/api/books", dataToSend);
       toast.success("Book added successfully!");
       console.log("Book added:", response.data);
       setFormData({
@@ -125,12 +122,12 @@ const AddBook = () => {
 
   // Handle modal confirm
   const handleModalConfirm = () => {
-    setShowModal(true); // Show the modal
+    setShowModal(true); 
   };
 
   // Handle modal cancel
   const handleModalCancel = () => {
-    setShowModal(false); // Close the modal without submitting
+    setShowModal(false); 
   };
 
   return (

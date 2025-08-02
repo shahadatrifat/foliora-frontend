@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import SkeletonCard from "../../components/loader/skeleton/SkeletonCard";
 import { motion } from "framer-motion";
 import { Heart, MessageSquare, User, ArrowRight } from "lucide-react";
-import { Link } from "react-router"; // Corrected import for Link
+import { Link } from "react-router"; 
 
 const Library = () => {
   const [books, setBooks] = useState([]);
@@ -125,7 +125,6 @@ const Library = () => {
               style={{ transformStyle: "preserve-3d" }}
               className="bg-white/60 dark:bg-[#111827]/60 backdrop-blur rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl p-4 relative flex flex-col justify-between"
             >
-              {/* === Group 1: Image, Title, and Author === */}
               <div className="flex flex-col">
                 {/* Book cover */}
                 <div className="w-full aspect-[2/3] overflow-hidden rounded-md mb-3 sm:mb-4">
@@ -135,7 +134,6 @@ const Library = () => {
                     className="w-full h-full object-cover rounded-md"
                   />
                 </div>
-                {/* Book Info (Title & Author) */}
                 <div>
                   <Link to={`/book/${book._id}`}><h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-1 hover:underline line-clamp-2">
                     {book.title}
@@ -146,9 +144,7 @@ const Library = () => {
                 </div>
               </div>
 
-              {/* === Group 2: Genres, Uploader, Likes/Reviews, and Details Button === */}
-              <div className="mt-4 flex flex-col"> {/* Added mt-4 for spacing from Group 1 */}
-                {/* Genres Section */}
+              <div className="mt-4 flex flex-col"> 
                 <div className="flex flex-wrap gap-1 mb-3">
                   {Array.isArray(book.genre) ? (
                     book.genre.map((g, i) => (
