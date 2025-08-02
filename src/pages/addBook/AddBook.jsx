@@ -96,7 +96,7 @@ const AddBook = () => {
       };
       const response = await axiosSecure.post("/api/books", dataToSend);
       toast.success("Book added successfully!");
-      console.log("Book added:", response.data);
+      // console.log("Book added:", response.data);
       setFormData({
         title: "",
         author: "",

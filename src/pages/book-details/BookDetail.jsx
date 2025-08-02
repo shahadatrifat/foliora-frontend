@@ -21,7 +21,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookDetails = () => {
   const book = useLoaderData();
-  console.log(book);
+  // console.log(book);
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 

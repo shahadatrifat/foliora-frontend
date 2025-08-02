@@ -9,7 +9,7 @@ import { Fade } from "react-awesome-reveal";
 const RootLayout = () => {
   return (
     <div>
-      <Toaster position="top-right" reverseOrder={false}></Toaster>
+      <Toaster position="bottom-left" reverseOrder={false}></Toaster>
       <Navbar></Navbar>
       <main>
         <Outlet />

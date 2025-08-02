@@ -15,7 +15,7 @@ const MyBooks = () => {
   const { user } = useContext(AuthContext);
 
   const axiosSecure = useAxiosSecure();
-  console.log(user);
+  // console.log(user);
   const [myBooks, setMyBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false); // State for edit modal visibility
