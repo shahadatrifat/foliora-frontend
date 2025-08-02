@@ -1,24 +1,45 @@
+# Dependency directories
+node_modules/
+
+# Build output directories (for React, Vue, etc.)
+build/
+dist/
+
+# Optional: Testing directories
+coverage/
+
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS files (for macOS, Windows, Linux)
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE/Editor folders (e.g., VSCode, WebStorm, etc.)
+.vscode/
+.idea/
+
+# Next.js (if using Next.js)
+.next/
+
+# Nuxt.js (if using Nuxt.js)
+.nuxt/
+
+# Storybook build output
+storybook-static/
+
+# Temporary files
+*.swp
+*.swo
+
+# Cache directories
+.cache/
+
