@@ -12,6 +12,7 @@ import UpvoteListModal from "../Home/components/modals/UpVoteModal";
 
 const MyBooks = () => {
   const { user } = useContext(AuthContext);
+  console.log(user);
   const [myBooks, setMyBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false); // State for edit modal visibility
@@ -36,7 +37,11 @@ const MyBooks = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/my-books?email=${user?.email}`  // Querying books based on the user's email
+          `${import.meta.env.VITE_API_URL}/api/my-books?email=${user?.email}`,{
+            headers:{
+              authorization: `Bearer ${user?.accessToken}`
+            }
+          }  
         );
         setMyBooks(response.data);
       } catch (err) {
@@ -125,7 +130,7 @@ const MyBooks = () => {
   };
 
   if (loading) {
-    return <Loader />;
+    return <Loader/>;
   }
 
   return (

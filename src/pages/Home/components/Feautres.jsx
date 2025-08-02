@@ -1,8 +1,6 @@
 // src/components/Features.jsx
-import { BookText, Heart, Star, ClipboardCheck } from "lucide-react";
+import { BookText, Heart, Star, ClipboardCheck, Gift, Clock } from "lucide-react";
 import { motion } from "framer-motion";
-import readingAnimation from "../../../assets/lotties/reading.json";
-import { Player } from "@lottiefiles/react-lottie-player";
 
 const features = [
   {
@@ -10,12 +8,14 @@ const features = [
     title: "Track Your Reading",
     desc: "Monitor your current reads and mark your progress easily.",
   },
-  {
-    icon: <Heart size={28} />,
-    title: "Wishlist Favorite Books",
-    desc: "Save books you want to read later and organize them beautifully.",
-  },
   
+  
+
+{
+  icon: <Gift size={28} />,
+  title: "Share Book Recommendations",
+  desc: "Share your favorite books with friends and receive personalized suggestions.",
+},
   {
     icon: <Star size={28} />,
     title: "Rate Your Favorites",
@@ -36,7 +36,7 @@ const Features = () => {
         <h2 className="text-3xl md:text-4xl font-semibold font-[Playfair] text-center mb-6 text-primary ">
           Why Choose Foliora?
         </h2>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid container mx-auto md:grid-cols-3 gap-8">
           {features.map((feat, idx) => (
             <motion.div
               key={idx}

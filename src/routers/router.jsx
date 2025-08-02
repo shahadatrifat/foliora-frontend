@@ -33,27 +33,40 @@ const router = createBrowserRouter([
         path: "/add-Book",
         element: (
           <PageWrapper>
-            <PrivateRoute><AddBook></AddBook></PrivateRoute>
+            <PrivateRoute>
+              <AddBook></AddBook>
+            </PrivateRoute>
           </PageWrapper>
         ),
       },
       {
         path: "/my-books",
         element: (
-          <PrivateRoute><PageWrapper>
-            <MyBooks></MyBooks>
-            </PageWrapper></PrivateRoute>
+          <PrivateRoute>
+            <PageWrapper>
+              <MyBooks></MyBooks>
+            </PageWrapper>
+          </PrivateRoute>
         ),
       },
       {
         path: "/book/:id",
-        element: <PrivateRoute><BookDetail></BookDetail></PrivateRoute>,
-        loader : ({params}) => fetch(`${import.meta.env.VITE_API_URL}/api/books/${params.id}`),
+        element: (
+          <PrivateRoute>
+            <BookDetail></BookDetail>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/api/books/${params.id}`),
         fallback: <Loader></Loader>,
       },
       {
         path: "/profile",
-        element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/signup",
@@ -72,17 +85,24 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path:"*",
-        element:<ErrorPage></ErrorPage>
+        path: "*",
+        element: <ErrorPage></ErrorPage>,
       },
       {
         path: "/dashboard",
-        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <DashboardLayout></DashboardLayout>
+          </PrivateRoute>
+        ),
         children: [
-          
           {
             index: true,
-            element: <PrivateRoute><DashboardHome></DashboardHome></PrivateRoute>,
+            element: (
+              <PrivateRoute>
+                <DashboardHome></DashboardHome>
+              </PrivateRoute>
+            ),
           },
           {
             path: "/dashboard/my-books",
@@ -95,8 +115,7 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/profile",
             element: <MyProfile></MyProfile>,
-          }
-          
+          },
         ],
       },
     ],

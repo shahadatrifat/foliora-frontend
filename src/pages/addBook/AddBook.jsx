@@ -98,10 +98,8 @@ const AddBook = () => {
         `${import.meta.env.VITE_API_URL}/api/books`,
         dataToSend
       );
-
       toast.success("Book added successfully!");
       console.log("Book added:", response.data);
-
       setFormData({
         title: "",
         author: "",
@@ -121,7 +119,7 @@ const AddBook = () => {
       }
     } finally {
       setLoading(false);
-      setShowModal(false); // Close the modal after submission
+      setShowModal(false); 
     }
   };
 
@@ -248,7 +246,6 @@ const AddBook = () => {
             required
           />
         </div>
-
         {/* Page Count */}
         <div>
           <label className="flex mb-1 items-center gap-2 font-semibold text-gray-700 dark:text-white">
@@ -265,7 +262,6 @@ const AddBook = () => {
             required
           />
         </div>
-
         {/* Description */}
         <div>
           <label className="flex items-center gap-2 mb-1 font-semibold text-gray-700 dark:text-white">
@@ -286,7 +282,7 @@ const AddBook = () => {
         <div className="text-center pt-4">
           <button
             type="button"
-            onClick={handleModalConfirm} // Trigger modal when clicked
+            onClick={handleModalConfirm} 
             disabled={loading}
             className="px-6 py-3 rounded-xl border-gray-200 text-white border dark:border-gray-700 font-semibold bg-primary hover:bg-opacity-90 transition-all duration-200 disabled:opacity-50"
           >
@@ -301,7 +297,6 @@ const AddBook = () => {
           </button>
         </div>
       </motion.form>
-
       {/* Confirmation Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/50">
