@@ -12,23 +12,25 @@ const UpvotedFeatureCard = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/books`
-        );
-        // Slice the first 6 books and sort by upvotes
-        const topBooks = response.data.slice(0, 5);
-        const sortedBooks = topBooks.sort(
-          (a, b) => b.upvotes.length - a.upvotes.length
-        );
-        setBooks(sortedBooks);
-      } catch (err) {
-        setError("Error fetching books. Please try again later.");
-        console.error("Error fetching books:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/books`);
+    const books = response.data;
+
+    const sorted = books.sort(
+      (a, b) => (b.upvotes?.length || 0) - (a.upvotes?.length || 0)
+    );
+
+    //  top 5
+    const top5 = sorted.slice(0, 5);
+    setBooks(top5);
+  } catch (err) {
+    setError("Error fetching books. Please try again later.");
+    console.error("Error fetching books:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     fetchBooks();
   }, []);
