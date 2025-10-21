@@ -7,7 +7,7 @@ import readingAnimation from "../../../assets/lotties/reading.json";
 const Hero = () => {
   return (
     <section className="bg-gradient-to-r from-[#fdfbfb] to-[#ebedee] dark:from-[#0c111c] dark:to-[#0e131f] text-gray-900 dark:text-white py-20">
-      <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 items-center gap-12">
+      <div className="container mx-auto px-4 grid md:grid-cols-2 items-center gap-12">
         {/* Lottie Animation */}
         <motion.div
           initial={{ x: -40, opacity: 0 }}

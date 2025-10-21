@@ -50,7 +50,7 @@ const UpvotedFeatureCard = () => {
     transition={{ duration: 0.6 }}
      viewport={{ once: true, amount: 0.3 }}
                 whileInView={{ opacity: 1, y: 0 }}
-    className="max-w-4xl  mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg ">
+    className="container  mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg ">
       <h2 className="text-3xl md:text-4xl font-semibold font-[Playfair] text-center mb-6 text-primary mt-8">
         Top 5 Upvoted Books
       </h2>

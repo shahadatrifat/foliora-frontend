@@ -54,7 +54,7 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <nav className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between font-semibold text-gray-800">
+      <nav className="container mx-auto px-4 py-3 flex items-center justify-between font-semibold text-gray-800">
         <div className="flex items-center gap-2 ">
           {/* Mobile Menu Button */}
           <div className="md:hidden">

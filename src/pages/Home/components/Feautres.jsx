@@ -1,5 +1,4 @@
-// src/components/Features.jsx
-import { BookText, Heart, Star, ClipboardCheck, Gift, Clock } from "lucide-react";
+import { BookText, Star, Gift } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
@@ -8,14 +7,12 @@ const features = [
     title: "Track Your Reading",
     desc: "Monitor your current reads and mark your progress easily.",
   },
-  
-  
 
-{
-  icon: <Gift size={28} />,
-  title: "Share Book Recommendations",
-  desc: "Share your favorite books with friends and receive personalized suggestions.",
-},
+  {
+    icon: <Gift size={28} />,
+    title: "Share Book Recommendations",
+    desc: "Share your favorite books with friends and receive personalized suggestions.",
+  },
   {
     icon: <Star size={28} />,
     title: "Rate Your Favorites",
@@ -32,7 +29,7 @@ const Features = () => {
       viewport={{ once: true, amount: 0.3 }}
       className="py-16 bg-white dark:bg-gray-950"
     >
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-semibold font-[Playfair] text-center mb-6 text-primary ">
           Why Choose Foliora?
         </h2>

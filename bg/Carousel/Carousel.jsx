@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import axios from "axios";
-import { FiFileText, FiCircle, FiLayers, FiLayout, FiCode } from 'react-icons/fi';
+import { FiFileText, } from 'react-icons/fi';
 import { Sparkles } from "lucide-react";
 import { Link } from "react-router";
 
@@ -26,7 +26,7 @@ export default function Carousel({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/api/recent-reviews`) // Adjust with the correct API endpoint for reviews
+      .get(`${import.meta.env.VITE_API_URL}/api/recent-reviews`)  
       .then((res) => {
         setReviews(res.data);
       })
