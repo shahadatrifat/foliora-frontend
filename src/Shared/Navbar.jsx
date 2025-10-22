@@ -13,34 +13,46 @@ const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const userMenuRef = useRef(null);
 
-  const navLinks = [
+  const baseLinks = [
     { name: "Home", path: "/" },
     { name: "Library", path: "/library" },
+  ];
+
+  const userLinks = user
+    ? [
+        { name: "Add Book", path: "/add-book" },
+        { name: "My Books", path: "/my-books" },
+        { name: "Dashboard", path: "/dashboard" },
+      ]
+    : [];
+
+  const infoLinks = [
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
     { name: "FAQ", path: "/faq" },
-    
   ];
 
-  if (user) {
-    navLinks.push({ name: "Add Book", path: "/add-Book" });
-    navLinks.push({ name: "My Books", path: "/my-books" });
-    navLinks.push({ name: "Dashboard", path: "/dashboard" });
-  }
+  const navLinks = [...baseLinks, ...userLinks, ...infoLinks];
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleLogout = async () => {
     try {
       await signOutUser();
       toast.success("Logged out successfully!");
       setIsUserMenuOpen(false);
-    } catch (err) {
+    } catch {
       toast.error("Failed to logout.");
     }
   };
 
-  // Close modal on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
@@ -53,14 +65,15 @@ const Navbar = () => {
 
   return (
     <motion.header
-      className="w-full bg-white/70 backdrop-blur-md  sticky top-0 z-50 border-b border-white/20"
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      className={`w-full sticky top-0 z-50 transition-all duration-300 border-b ${
+        scrolled
+          ? "bg-white/60 dark:bg-black/30 backdrop-blur-md border-white/20 shadow-md"
+          : "bg-white dark:bg-black border-transparent"
+      }`}
     >
-      <nav className="container mx-auto px-4 py-3 flex items-center justify-between font-semibold text-gray-800">
-        <div className="flex items-center gap-2 ">
-          {/* Mobile Menu Button */}
+      <nav className="container mx-auto px-4 py-3 flex items-center justify-between font-semibold text-gray-800 dark:text-gray-200">
+        {/* Left - Logo + Mobile Menu */}
+        <div className="flex items-center gap-2">
           <div className="md:hidden">
             <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? (
@@ -70,21 +83,19 @@ const Navbar = () => {
               )}
             </button>
           </div>
-          {/* Left Logo */}
-          <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="flex items-center gap-2 text-xl tracking-wide"
-            >
-              <BookOpen className="w-6 h-6 text-indigo-600" />
-              <span className="font-serif text-gray-900 dark:text-white font-[Playfair] text-xl">
-                Foliora
-              </span>
-            </Link>
-          </div>
+
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-xl tracking-wide"
+          >
+            <BookOpen className="w-6 h-6 text-indigo-600" />
+            <span className="font-serif font-[Playfair] text-gray-900 dark:text-white text-xl">
+              Foliora
+            </span>
+          </Link>
         </div>
 
-        {/* Center Links (Desktop) */}
+        {/* Center - Desktop Links */}
         <ul className="hidden md:flex flex-1 justify-center gap-8">
           {navLinks.map((link) => (
             <li key={link.name}>
@@ -93,7 +104,9 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   isActive
                     ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-2 py-1 rounded-md"
-                    : "hover:text-indigo-500 dark:text-white"
+                    : ["About", "Contact", "FAQ"].includes(link.name)
+                    ? "text-gray-500 hover:text-indigo-500 dark:text-gray-400 dark:hover:text-indigo-400"
+                    : "hover:text-indigo-500 dark:hover:text-indigo-400"
                 }
               >
                 {link.name}
@@ -109,7 +122,7 @@ const Navbar = () => {
           {!user && (
             <Link
               to="/signin"
-              className="text-sm font-medium p-2 text-gray-700 dark:text-white hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-white/10 rounded"
+              className="text-sm font-medium p-2 text-gray-700 dark:text-gray-200 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-white/10 rounded"
             >
               Sign In
             </Link>
@@ -123,8 +136,8 @@ const Navbar = () => {
               >
                 {user.photoURL ? (
                   <img
-                    src={user?.photoURL}
-                    alt="User Avatar"
+                    src={user.photoURL}
+                    alt="User"
                     className="w-8 h-8 rounded-full object-cover border border-gray-300"
                   />
                 ) : (
@@ -132,6 +145,7 @@ const Navbar = () => {
                 )}
               </button>
 
+              {/* Dropdown Menu */}
               <AnimatePresence>
                 {isUserMenuOpen && (
                   <motion.div
@@ -145,8 +159,7 @@ const Navbar = () => {
                       <div className="flex items-center gap-3">
                         <img
                           src={
-                            user.photoURL ||
-                            "https://i.ibb.co/4pDNDk1/avatar.png"
+                            user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
                           }
                           alt="avatar"
                           className="w-10 h-10 rounded-full object-cover"
@@ -168,13 +181,12 @@ const Navbar = () => {
                           onClick={() => setIsUserMenuOpen(false)}
                           className="block px-4 py-2 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded"
                         >
-                          <FaRegCircleUser size={20} />
-                          My Profile
+                          <FaRegCircleUser size={20} /> My Profile
                         </Link>
                       </li>
                       <li>
                         <Link
-                          to="dashboard"
+                          to="/dashboard"
                           onClick={() => setIsUserMenuOpen(false)}
                           className="block px-4 py-2 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded"
                         >
@@ -198,7 +210,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu Links */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.ul
