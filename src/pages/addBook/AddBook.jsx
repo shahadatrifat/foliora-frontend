@@ -96,7 +96,6 @@ const AddBook = () => {
       };
       const response = await axiosSecure.post("/api/books", dataToSend);
       toast.success("Book added successfully!");
-      // console.log("Book added:", response.data);
       setFormData({
         title: "",
         author: "",
@@ -116,18 +115,18 @@ const AddBook = () => {
       }
     } finally {
       setLoading(false);
-      setShowModal(false); 
+      setShowModal(false);
     }
   };
 
   // Handle modal confirm
   const handleModalConfirm = () => {
-    setShowModal(true); 
+    setShowModal(true);
   };
 
   // Handle modal cancel
   const handleModalCancel = () => {
-    setShowModal(false); 
+    setShowModal(false);
   };
 
   return (
@@ -137,8 +136,17 @@ const AddBook = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-semibold text-center mb-10 text-primary"
       >
-        ✨ Add a New Book
+         Add a New Book
       </motion.h1>
+      <p>
+        <motion.span
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          Your book will be added to the library.
+        </motion.span>
+      </p>
 
       <motion.form
         initial={{ opacity: 0 }}
@@ -279,7 +287,7 @@ const AddBook = () => {
         <div className="text-center pt-4">
           <button
             type="button"
-            onClick={handleModalConfirm} 
+            onClick={handleModalConfirm}
             disabled={loading}
             className="px-6 py-3 rounded-xl border-gray-200 text-white border dark:border-gray-700 font-semibold bg-primary hover:bg-opacity-90 transition-all duration-200 disabled:opacity-50"
           >
@@ -302,13 +310,27 @@ const AddBook = () => {
               Confirm Your Book Details
             </h3>
             <div className="space-y-4">
-              <p><strong>Title:</strong> {formData.title}</p>
-              <p><strong>Author:</strong> {formData.author}</p>
-              <p><strong>Genre:</strong> {genreArray.join(", ")}</p>
-              <p><strong>Category:</strong> {categoryArray.join(", ")}</p>
-              <p><strong>Year:</strong> {formData.publishingYear}</p>
-              <p><strong>Pages:</strong> {formData.pageCount}</p>
-              <p><strong>Description:</strong> {formData.description}</p>
+              <p>
+                <strong>Title:</strong> {formData.title}
+              </p>
+              <p>
+                <strong>Author:</strong> {formData.author}
+              </p>
+              <p>
+                <strong>Genre:</strong> {genreArray.join(", ")}
+              </p>
+              <p>
+                <strong>Category:</strong> {categoryArray.join(", ")}
+              </p>
+              <p>
+                <strong>Year:</strong> {formData.publishingYear}
+              </p>
+              <p>
+                <strong>Pages:</strong> {formData.pageCount}
+              </p>
+              <p>
+                <strong>Description:</strong> {formData.description}
+              </p>
             </div>
             <div className="flex justify-between mt-4">
               <button
