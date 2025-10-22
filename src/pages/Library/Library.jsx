@@ -55,7 +55,7 @@ const Library = () => {
         transition={{ duration: 0.6, ease: "easeInOut" }}
         className="text-4xl font-bold mb-10 text-center text-primary tracking-tight"
       >
-        📚 Explore the Library
+         Explore the Library
       </motion.h1>
 
       {/* Genre Dropdown for Mobile (visible on smaller screens, hidden on md and up) */}
