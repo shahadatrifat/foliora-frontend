@@ -11,7 +11,7 @@ const GAP = 16;
 const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
 
 export default function Carousel({
-  baseWidth = 300,
+  baseWidth = 600,
   autoplay = false,
   autoplayDelay = 3000,
   pauseOnHover = false,

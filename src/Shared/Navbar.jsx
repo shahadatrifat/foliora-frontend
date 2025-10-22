@@ -18,6 +18,10 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Library", path: "/library" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
+    { name: "FAQ", path: "/faq" },
+    
   ];
 
   if (user) {

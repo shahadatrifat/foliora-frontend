@@ -23,7 +23,7 @@ const Home = () => {
           Recent Ratings and Reviews
         </h2>
         <Carousel
-          baseWidth={400}
+          baseWidth={600}
           autoplay={true}
           autoplayDelay={4000}
           pauseOnHover={true}

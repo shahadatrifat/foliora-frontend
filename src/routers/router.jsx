@@ -15,6 +15,11 @@ import MyBooks from "../pages/My-Books/MyBooks";
 import DashboardMainPage from "../pages/dashboard/DashboardMainPage";
 import ErrorPage from "../components/Errorpage/ErrorPage";
 import PrivateRoute from "../components/private-route/PrivateRoute";
+import About from "../pages/static/About";
+import Contact from "../pages/static/Contact";
+import FAQ from "../pages/static/FAQ";
+import PrivacyPolicy from "../pages/static/PrivacyPolicy";
+import Terms from "../pages/static/Terms";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +72,25 @@ const router = createBrowserRouter([
             <MyProfile></MyProfile>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/about",
+        element: <PageWrapper><About></About></PageWrapper>,
+      },{
+        path:"/contact",
+        element: <PageWrapper><Contact></Contact></PageWrapper>,
+      },
+      {
+        path:"/faq",
+        element: <PageWrapper><FAQ></FAQ></PageWrapper>,
+      },
+      {
+        path:"/privacy-policy",
+        element: <PrivacyPolicy></PrivacyPolicy>,
+      },
+      {
+        path:"/terms",
+        element: <Terms></Terms>
       },
       {
         path: "/signup",
