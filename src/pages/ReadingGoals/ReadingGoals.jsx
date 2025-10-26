@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 export default function ReadingGoals() {
   const { user } = useContext(AuthContext);
@@ -101,18 +102,28 @@ export default function ReadingGoals() {
     }
   };
 
-  const handleDeleteGoal = async (goalId) => {
-    if (!confirm("Are you sure you want to delete this goal?")) return;
+ const handleDeleteGoal = async (goalId) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "This goal will be permanently deleted.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+  }).then(async (result) => {
+    if (!result.isConfirmed) return;
 
     try {
       await axiosSecure.delete(`/api/reading-goals/${goalId}`);
       setGoals(goals.filter((g) => g._id !== goalId));
-      toast.success("Goal deleted");
+      toast.success("Goal deleted successfully");
     } catch (error) {
       console.error("Failed to delete goal:", error);
       toast.error("Failed to delete goal");
     }
-  };
+  });
+};
 
   const calculateProgress = (current, target) => {
     return Math.min((current / target) * 100, 100);
