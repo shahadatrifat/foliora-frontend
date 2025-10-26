@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Hero from "./components/Hero";
 import Features from "./components/Feautres";
-import NewsletterSection from "./components/modals/NewsLetterSection";
 import { motion } from "framer-motion";
 import Stats from "./components/Stats";
 import api, { extractArray } from "../../api";
@@ -70,7 +69,6 @@ const Home = () => {
       <Reviews reviews={recentReviews}></Reviews>
       <CallToAction></CallToAction>
       
-      <NewsletterSection></NewsletterSection>
     </div>
   );
 };
