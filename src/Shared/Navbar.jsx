@@ -25,6 +25,7 @@ const Navbar = () => {
     ? [
         { name: "Add Book", path: "/add-book" },
         { name: "My Books", path: "/my-books" },
+        { name: "Reading Goals", path: "/reading-goals" },
         { name: "Dashboard", path: "/dashboard" },
       ]
     : [];
@@ -159,7 +160,8 @@ const Navbar = () => {
                       <div className="flex items-center gap-3">
                         <img
                           src={
-                            user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
+                            user.photoURL ||
+                            "https://i.ibb.co/4pDNDk1/avatar.png"
                           }
                           alt="avatar"
                           className="w-10 h-10 rounded-full object-cover"

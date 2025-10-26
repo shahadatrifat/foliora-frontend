@@ -1,19 +1,21 @@
 import { Link, useLoaderData } from "react-router";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   CalendarDays,
-  BookOpenText,
-  UserRoundSearch,
+  BookOpen,
   User,
   ChevronLeft,
-  Heart,
-  MessageSquareText,
   ArrowUp,
+  MessageSquareText,
+  Star,
+  BookmarkPlus,
+  Share2,
+  Eye,
+  Clock,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
 import Loader from "../../components/loader/Loader";
 import ReviewCard from "./ReviewCard";
 import PostedReviewCard from "./PostedReviewCard";
@@ -21,11 +23,9 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookDetails = () => {
   const book = useLoaderData();
-  // console.log(book);
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 
-  // Initialize state based on the initial book data
   const [upvoteCount, setUpvoteCount] = useState(book.upvotes?.length || 0);
   const [hasUpvoted, setHasUpvoted] = useState(() => {
     return book.upvotes?.some((up) => up.email === user?.email);
@@ -34,6 +34,7 @@ const BookDetails = () => {
     book.readingStatus?.find((status) => status.email === user?.email)
       ?.status || "Not Started"
   );
+  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
     setUpvoteCount(book.upvotes?.length || 0);
@@ -58,9 +59,12 @@ const BookDetails = () => {
     reviews,
   } = book;
   const bookId = String(book._id);
-  console.log(bookId);
+  const uploaderInfo = uploader?.[0];
 
-  const uploaderInfo = uploader?.[0]; 
+  // Calculate average rating
+  const averageRating = reviews?.length
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+    : 0;
 
   const handleUpvote = async () => {
     if (!user) {
@@ -89,10 +93,6 @@ const BookDetails = () => {
           setHasUpvoted(true);
           toast.success("Upvoted successfully");
         }
-      } else {
-        toast.error(
-          `Upvote failed: Server responded with status ${res.status}`
-        );
       }
     } catch (err) {
       toast.error("Error upvoting book");
@@ -125,198 +125,352 @@ const BookDetails = () => {
       });
       if (res.status === 200) {
         toast.success("Review submitted successfully!");
+        window.location.reload();
       }
     } catch (err) {
-      toast.error("Error submitting review");
+      toast.error(err.response?.data?.error || "Error submitting review");
     }
   };
 
-  const formattedUploadDate = UploadDate
-    ? new Date(UploadDate).toLocaleDateString()
-    : "N/A";
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: `Check out "${title}" by ${author}`,
+        url: window.location.href,
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success("Link copied to clipboard!");
+      setShowShareModal(false);
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Reading":
+        return "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200";
+      case "Read":
+        return "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200";
+      case "Want-to-Read":
+        return "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200";
+      default:
+        return "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200";
+    }
+  };
 
   if (!book) {
     return <Loader />;
   }
 
   return (
-    <div className="max-w-6xl py-10 px-4 md:py-16 mx-auto">
-      <button
-        className="flex items-center hover:underline text-md font-semibold text-primary"
-        onClick={() => window.history.back()}
-      >
-        <ChevronLeft /> back
-      </button>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Back Button */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <motion.button
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          whileHover={{ x: -5 }}
+          className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors"
+          onClick={() => window.history.back()}
+        >
+          <ChevronLeft className="w-5 h-5" />
+          Back to Library
+        </motion.button>
+      </div>
 
-      <motion.section
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-[#f3f4f6] dark:bg-[#0c111c] rounded-3xl py-10 px-4 md:py-16 "
-      >
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          <div className="w-full overflow-hidden rounded-2xl">
-            <img
-              src={coverImage}
-              alt={title}
-              className="w-full h-full object-cover rounded-2xl"
-            />
-          </div>
-
-          <div className="flex flex-col gap-6">
-            <h1 className="text-3xl md:text-4xl font-bold font-playfair text-primary">
-              {title}
-            </h1>
-
-            <p className="text-muted-foreground text-gray-800 dark:text-gray-300 text-sm italic flex items-center">
-              <CalendarDays size={16} className="inline mr-1" />
-              Published in {publishingYear}
-            </p>
-
-            <div className="space-y-3">
-              <div>
-                <span className="text-muted-foreground text-gray-800 dark:text-gray-300 font-medium">
-                  Author:
-                </span>{" "}
-                <span className="text-lg text-gray-800 dark:text-gray-300 font-semibold">
-                  {author}
-                </span>
-              </div>
-              <div>
-                <span className="text-muted-foreground text-gray-800 dark:text-gray-300 text-sm font-medium">
-                  Genre:
-                </span>{" "}
-                {genre?.map((g, i) => (
-                  <span
-                    key={i}
-                    className="text-xs bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-300 px-2 py-1 rounded-full whitespace-nowrap mr-1"
-                  >
-                    {g}
-                  </span>
-                ))}
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 pb-12">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Left Column - Book Cover & Quick Actions */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="lg:col-span-1"
+          >
+            <div className="sticky top-6 space-y-6">
+              {/* Book Cover */}
+              <div className="relative group">
+                <motion.img
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  src={coverImage}
+                  alt={title}
+                  className="w-full rounded-2xl "
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">
+                      {pageCount} pages
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <span className="text-muted-foreground text-sm text-gray-800 dark:text-gray-300 font-medium">
-                  Category:
-                </span>{" "}
-                {category?.map((c, i) => (
-                  <span
-                    key={i}
-                    className="text-xs bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-300 px-2 py-1 rounded-full whitespace-nowrap mr-1"
-                  >
-                    {c}
-                  </span>
-                ))}
+              {/* Rating Overview */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 ">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Star className="w-6 h-6 text-yellow-500 fill-current" />
+                      <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                        {averageRating}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {reviews?.length || 0} reviews
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center gap-1 text-yellow-500 mb-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < Math.round(averageRating)
+                              ? "fill-current"
+                              : ""
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Progress Bars for Rating Distribution */}
+                <div className="space-y-2">
+                  {[5, 4, 3, 2, 1].map((star) => {
+                    const count = reviews?.filter((r) => r.rating === star).length || 0;
+                    const percentage = reviews?.length ? (count / reviews.length) * 100 : 0;
+                    return (
+                      <div key={star} className="flex items-center gap-2">
+                        <span className="text-xs text-gray-600 dark:text-gray-400 w-6">
+                          {star}★
+                        </span>
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <div
+                            className="bg-yellow-500 h-2 rounded-full"
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-gray-600 dark:text-gray-400 w-8">
+                          {count}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div>
-                <span className="text-muted-foreground text-gray-800 dark:text-gray-300 font-medium">
-                  Page Count:
-                </span>{" "}
-                <span className="text-gray-800 dark:text-gray-300">
-                  {pageCount}
-                </span>
+              {/* Action Buttons */}
+              <div className="space-y-3">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleUpvote}
+                  disabled={hasUpvoted}
+                  className={`w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
+                    hasUpvoted
+                      ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                      : "bg-indigo-600 text-white hover:bg-indigo-700"
+                  }`}
+                >
+                  <ArrowUp className="w-5 h-5" />
+                  {hasUpvoted ? "Upvoted" : "Upvote"} ({upvoteCount})
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleShare}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  <Share2 className="w-5 h-5" />
+                  Share Book
+                </motion.button>
+              </div>
+
+              {/* Reading Status */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 ">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  <BookOpen className="w-4 h-4 inline mr-2" />
+                  Reading Status
+                </label>
+                <select
+                  value={readingStatus}
+                  onChange={handleStatusChange}
+                  className={`w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 font-medium transition-all cursor-pointer ${getStatusColor(
+                    readingStatus
+                  )}`}
+                >
+                  <option value="Want-to-Read">Want to Read</option>
+                  <option value="Reading">Currently Reading</option>
+                  <option value="Read">Finished</option>
+                  <option value="Not Started">Not Started</option>
+                </select>
               </div>
             </div>
+          </motion.div>
 
-            <div className="mt-4">
-              <h2 className="text-xl font-semibold mb-2 text-primary">
-                Description
+          {/* Right Column - Book Details */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Book Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl p-8 "
+            >
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                {title}
+              </h1>
+              <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">
+                by {author}
+              </p>
+
+              {/* Metadata */}
+              <div className="flex flex-wrap gap-4 mb-6">
+                <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full">
+                  <CalendarDays className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {publishingYear}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full">
+                  <BookOpen className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {pageCount} pages
+                  </span>
+                </div>
+              </div>
+
+              {/* Genres & Categories */}
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                    Genres
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {genre?.map((g, i) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-sm font-medium"
+                      >
+                        {g}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                    Categories
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {category?.map((c, i) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium"
+                      >
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl p-8 "
+            >
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                About this book
               </h2>
-              <p className="text-base leading-relaxed  text-gray-800 dark:text-gray-300 text-muted-foreground">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 {description}
               </p>
-            </div>
+            </motion.div>
 
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-800 dark:text-gray-300">
-                Reading Status
-              </label>
-              <select
-                value={readingStatus}
-                onChange={handleStatusChange}
-                className="w-full p-2 mt-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 border border-gray-300 rounded-md"
-              >
-                <option value="Want-to-Read">Want-to-Read</option>
-                <option value="Reading">Reading</option>
-                <option value="Read">Read</option>
-                <option value="Not Started">Not Started</option>
-              </select>
-            </div>
-
-            <div className="flex gap-3 mt-">
-              <button
-                onClick={handleUpvote}
-                disabled={hasUpvoted}
-                className={`px-4 py-2 flex items-center gap-2 rounded-full transition-all text-sm font-semibold
-                    ${
-                      hasUpvoted
-                        ? "bg-green-200 dark:bg-green-800 text-green-900 dark:text-green-100"
-                        : "bg-muted hover:bg-muted/80"
-                    }`}
-              >
-                <ArrowUp size={16} className=" inline text-primary" />
-                <span className="text-gray-800 dark:text-gray-300">
-                  {hasUpvoted ? "Upvoted" : "Upvote"}
-                </span>{" "}
-                ({upvoteCount})
-              </button>
-              <button className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-full bg-muted hover:bg-muted/70 transition ">
-                <MessageSquareText className="text-primary" size={16} />
-                <span className="text-gray-800 dark:text-gray-300">
-                  Reviewed By
-                </span>
-                ({reviews.length})
-              </button>
-            </div>
-
-            {/* Render publisher after the divider */}
-            <div className="">
-              <h2 className="text-xl font-semibold  text-primary">Publisher</h2>
-              <p className="text-sm text-muted-foreground flex items-center gap-1 text-gray-500 dark:text-gray-400    ">
-                posted on {UploadDate.slice(0, 10)}
-              </p>
-              <div className="px-3 py-2 bg-gray-100 mb-5 dark:bg-gray-800 w-full md:w-3/4 border border-gray-300 dark:border-gray-600  rounded-md bg-muted/40 flex items-center gap-3   ">
-                <div className="w-12 border-2 border-primary border-muted dark:border-gray-600 h-12 min-w-12 rounded-full overflow-hidden shadow-inner">
-                  {uploaderInfo.uploaderPhoto ? (
+            {/* Publisher Info */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl p-8"
+            >
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                Published by
+              </h2>
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-indigo-500 flex-shrink-0">
+                  {uploaderInfo?.uploaderPhoto ? (
                     <img
                       src={uploaderInfo.uploaderPhoto}
                       alt={uploaderInfo.uploaderName}
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full bg-muted flex items-center justify-center text-lg font-bold text-primary">
-                      <User />
+                    <div className="w-full h-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center">
+                      <User className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
                     </div>
                   )}
                 </div>
-                <div className="leading-tight">
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-300 text-foreground">
-                    {uploaderInfo.uploaderName}
+                <div>
+                  <p className="font-semibold text-gray-900 dark:text-white text-lg">
+                    {uploaderInfo?.uploaderName}
                   </p>
-                  <p className="text-xs text-muted-foreground text-gray-800 dark:text-gray-300 flex items-center gap-1">
-                    <UserRoundSearch size={12} />
-                    {uploaderInfo.uploaderEmail}
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {uploaderInfo?.uploaderEmail}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-500 flex items-center gap-1 mt-1">
+                    <Clock className="w-3 h-3" />
+                    Published {new Date(UploadDate).toLocaleDateString()}
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
+
+            {/* Reviews Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="space-y-6"
+            >
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <MessageSquareText className="w-6 h-6" />
+                Reviews ({reviews?.length || 0})
+              </h2>
+
+              {/* Add Review */}
+              <ReviewCard onSubmit={handleReviewSubmit} />
+
+              {/* Existing Reviews */}
+              <div className="space-y-4">
+                {reviews?.length > 0 ? (
+                  reviews.map((review, index) => (
+                    <PostedReviewCard
+                      key={index}
+                      review={review}
+                      bookId={bookId}
+                    />
+                  ))
+                ) : (
+                  <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-xl">
+                    <MessageSquareText className="w-12 h-12 mx-auto text-gray-400 mb-3" />
+                    <p className="text-gray-600 dark:text-gray-400">
+                      No reviews yet. Be the first to review!
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
           </div>
         </div>
-        <span className="divider"></span>
-        <div className="md:flex justify-center-safe gap-2   ">
-          <div>
-            <ReviewCard onSubmit={handleReviewSubmit} />
-          </div>
-          <div className="divider md:divider-horizontal"></div>
-          <div>
-            {reviews?.length > 0 &&
-              reviews.map((review, index) => (
-                <PostedReviewCard key={index} review={review} bookId={bookId} />
-              ))}
-          </div>
-        </div>
-      </motion.section>
+      </div>
     </div>
   );
 };

@@ -20,6 +20,7 @@ import Contact from "../pages/static/Contact";
 import FAQ from "../pages/static/FAQ";
 import PrivacyPolicy from "../pages/static/PrivacyPolicy";
 import Terms from "../pages/static/Terms";
+import ReadingGoals from "../pages/ReadingGoals/ReadingGoals";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,14 @@ const router = createBrowserRouter([
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/api/books/${params.id}`),
         fallback: <Loader></Loader>,
+      },
+      {
+        path: "/reading-goals",
+        element: <PageWrapper>
+          <PrivateRoute>
+            <ReadingGoals></ReadingGoals>
+          </PrivateRoute>
+        </PageWrapper>
       },
       {
         path: "/profile",
