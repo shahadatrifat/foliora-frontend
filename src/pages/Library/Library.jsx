@@ -12,6 +12,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router";
 
 export default function Library() {
   const [books, setBooks] = useState([]);
@@ -269,14 +270,17 @@ export default function Library() {
                   className="bg-white dark:bg-gray-800 rounded-lg  overflow-hidden shadow-sm transition-shadow cursor-pointer group"
                 >
                   <div className="relative overflow-hidden">
-                    <img
-                      src={
-                        book.coverImage ||
-                        "https://via.placeholder.com/300x400?text=No+Cover"
-                      }
-                      alt={book.title}
-                      className="w-full h-52 sm:h-72 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
+                    <Link to={`/book/${book._id}`}>
+                      <img
+                        src={
+                          book.coverImage ||
+                          "https://via.placeholder.com/300x400?text=No+Cover"
+                        }
+                        alt={book.title}
+                        className="w-full h-52 sm:h-72 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </Link>
+
                     <div className="absolute top-2 right-2 flex gap-1 sm:gap-2">
                       {book.upvotes?.length > 0 && (
                         <span className="bg-white/90 dark:bg-gray-900/90 backdrop-blur px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
@@ -305,7 +309,6 @@ export default function Library() {
                           ? book.genre.join(", ")
                           : book.genre}
                       </span>
-                      
                     </div>
                   </div>
                 </motion.div>
