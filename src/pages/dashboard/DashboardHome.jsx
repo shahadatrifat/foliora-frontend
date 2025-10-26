@@ -24,14 +24,14 @@ const DashboardHome = () => {
       .get(`/api/books?email=${user?.email}`)
       .then((res) => {
         const books = res.data;
-        // console.log(books);
+        console.log(books);
         const categorizedBooks = {
           Reading: [],
           Read: [],
           "Want-to-Read": [],
         };
 
-        books.forEach((book) => {
+        books.books.forEach((book) => {
           const status =
             book.readingStatus?.find((status) => status.email === user.email)
               ?.status || "Not Started";

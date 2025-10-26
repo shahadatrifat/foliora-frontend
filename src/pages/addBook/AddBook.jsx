@@ -11,7 +11,7 @@ const AddBook = () => {
   const [loading, setLoading] = useState(false);
   const [genreInput, setGenreInput] = useState("");
   const [categoryInput, setCategoryInput] = useState("");
-  const [showModal, setShowModal] = useState(false); // State for showing modal
+  const [showModal, setShowModal] = useState(false); 
 
   const [formData, setFormData] = useState({
     title: "",
@@ -134,7 +134,7 @@ const AddBook = () => {
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-semibold text-center mb-10 text-primary"
+        className="text-3xl font-semibold text-center m text-primary"
       >
          Add a New Book
       </motion.h1>
@@ -143,6 +143,7 @@ const AddBook = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
+          className="text-gray-600 dark:text-gray-400 text-center block mb-5"
         >
           Your book will be added to the library.
         </motion.span>
@@ -152,7 +153,7 @@ const AddBook = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto bg-white dark:bg-[#111827] rounded-2xl shadow-lg p-8 space-y-6"
+        className="max-w-3xl mx-auto bg-white dark:bg-[#111827] rounded-2xl shadow-sm p-8 space-y-6"
       >
         {/* Title */}
         <div>

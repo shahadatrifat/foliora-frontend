@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
+import { Link } from "react-router";
 
 export default function TopRatedBooks({ books = [] }) {
   return (
@@ -30,7 +31,7 @@ export default function TopRatedBooks({ books = [] }) {
               whileHover={{ scale: 1.03 }}
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-lg shadow-sm  transition-shadow">
+              <Link to={`/book/${book._id}`}><div className="relative overflow-hidden rounded-lg shadow-sm  transition-shadow">
                 <img src={book.coverImage || "https://via.placeholder.com/200x300"} alt={book.title} className="w-full h-78 object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                   <div className="text-white">
@@ -41,7 +42,7 @@ export default function TopRatedBooks({ books = [] }) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div></Link>
             </motion.div>
           ))}
         </div>

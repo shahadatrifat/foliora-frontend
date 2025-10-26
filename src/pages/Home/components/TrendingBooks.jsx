@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { TrendingUp } from "lucide-react";
+import { Link } from "react-router";
 
 export default function TrendingBooks({ books = [] }) {
   return (
@@ -21,7 +22,7 @@ export default function TrendingBooks({ books = [] }) {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {books.map((book, index) => (
-            <motion.div
+            <Link to={`/book/${book._id}`}><motion.div
               key={book._id || index}
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -39,7 +40,7 @@ export default function TrendingBooks({ books = [] }) {
                   </span>
                 </div>
               </div>
-            </motion.div>
+            </motion.div></Link>
           ))}
         </div>
       </div>

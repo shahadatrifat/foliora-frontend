@@ -277,7 +277,7 @@ export default function Library() {
                           "https://via.placeholder.com/300x400?text=No+Cover"
                         }
                         alt={book.title}
-                        className="w-full h-52 sm:h-72 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-95 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </Link>
 
@@ -297,8 +297,8 @@ export default function Library() {
                     </div>
                   </div>
                   <div className="p-3 sm:p-4">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-1">
-                      {book.title}
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 hover:underline dark:text-white mb-1 line-clamp-1">
+                      <Link to={`/book/${book._id}`}>{book.title}</Link>
                     </h3>
                     <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">
                       by {book.author}

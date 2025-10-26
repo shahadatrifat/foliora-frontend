@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Award } from "lucide-react";
+import { Link } from "react-router";
 
 export default function CallToAction() {
   return (
@@ -11,8 +12,8 @@ export default function CallToAction() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">Start Your Reading Journey Today</h2>
           <p className="text-xl mb-8 text-white/90">Join thousands of readers discovering their next favorite book</p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors text-lg">Get Started Free</motion.button>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-transparent border-2 border-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-colors text-lg">Learn More</motion.button>
+            <Link to="/library"><motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors text-lg">Get Started Free</motion.button></Link>
+            <Link to="/about"><motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-transparent border-2 border-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-colors text-lg">Learn More</motion.button></Link>
           </div>
         </motion.div>
       </div>

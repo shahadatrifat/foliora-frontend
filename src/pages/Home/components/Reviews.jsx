@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
+import { Link } from "react-router";
 
 export default function Reviews({ reviews = [] }) {
   return (
@@ -41,7 +42,7 @@ export default function Reviews({ reviews = [] }) {
                 </div>
               </div>
               <p className="text-gray-700 dark:text-gray-300 mb-3 line-clamp-3">{review.comment}</p>
-              <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">Review for: {review.bookTitle}</p>
+              <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">Review for: <Link className="underline" to={`/book/${review.bookId}`}>{review.bookTitle}</Link> </p>
             </motion.div>
           ))}
         </div>
